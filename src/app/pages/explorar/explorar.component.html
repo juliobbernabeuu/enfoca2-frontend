@@ -1,0 +1,79 @@
+<div class="container mt-4 mb-4">
+  <h2 class="text-center mb-4">Explorar Fotos</h2>
+
+  <!-- Filtros -->
+  <div class="d-flex flex-wrap gap-3 justify-content-center mb-4">
+    <select class="form-select w-auto" [(ngModel)]="filtro.categoria" (change)="aplicarFiltros()">
+  <option value="">Todas las categorías</option>
+  <option *ngFor="let cat of categorias" [value]="cat.id_categoria">
+    {{ cat.nombre_categoria }}
+  </option>
+</select>
+
+    <select
+      class="form-select w-auto"
+      [(ngModel)]="filtro.orden"
+      (change)="aplicarFiltros()"
+    >
+      <option value="fecha">Más recientes</option>
+      <option value="likes">Más valoradas</option>
+    </select>
+
+    <select
+      class="form-select w-auto"
+      [(ngModel)]="filtro.precio"
+      (change)="aplicarFiltros()"
+    >
+      <option value="">Todas</option>
+      <option value="gratis">Gratis</option>
+      <option value="pago">De pago</option>
+    </select>
+  </div>
+
+  <!-- No hay fotos -->
+  <div *ngIf="fotos.length === 0" class="alert alert-info text-center">
+    No hay fotos para mostrar.
+  </div>
+
+  <!-- Galería de fotos -->
+  <div
+    class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 justify-content-center"
+  >
+    <div
+      class="col"
+      *ngFor="let foto of fotos; let i = index"
+      (mouseover)="hoveredIndex = i"
+      (mouseout)="hoveredIndex = null"
+    >
+      <div
+        class="position-relative"
+        [ngStyle]="{ transition: 'transform 0.3s ease-in-out' }"
+      >
+        <a
+          [routerLink]="['/foto', foto.id_foto]"
+          class="text-decoration-none d-block"
+        >
+          <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <img
+              [src]="foto.url"
+              alt="Foto"
+              class="w-100"
+              style="object-fit: cover; height: 220px"
+            />
+          </div>
+        </a>
+
+        <!-- Botón lateral de acción (descargar o pagar) -->
+        <button
+          *ngIf="hoveredIndex === i"
+          class="btn btn-sm position-absolute top-0 end-0 m-2 rounded-circle"
+          [ngClass]="foto.descargable ? 'btn-success' : 'btn-warning'"
+          [title]="foto.descargable ? 'Descargar gratis' : 'Foto de pago'"
+          (click)="foto.descargable ? descargar(foto) : comprar(foto)"
+        >
+          <i class="bi" [ngClass]="foto.descargable ? 'bi-download' : 'bi-currency-euro'"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

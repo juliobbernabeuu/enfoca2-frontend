@@ -1,0 +1,103 @@
+<nav class="navbar navbar-dark px-4 p-3 fw-bold" style="background-color: #212529; position: relative; z-index: 10;">
+  <div class="container-fluid d-flex align-items-center justify-content-between">
+
+    <!-- Logo visible solo en lg+ -->
+    <a class="navbar-brand fs-2 d-none d-lg-block" routerLink="/home">Enfoca2</a>
+
+    <!-- Menú en el centro en pantallas grandes -->
+    <ng-container *ngIf="auth.estaAutenticado(); else noLogeado">
+
+      <!-- Menú centrado solo en lg+ -->
+      <div class="d-none d-lg-flex flex-grow-1 justify-content-center">
+        <ul class="navbar-nav flex-row mb-0">
+          <li class="nav-item me-3" *ngIf="!auth.esAdmin()">
+            <a class="nav-link text-white" routerLink="/explorar">Explorar</a>
+          </li>
+          <li class="nav-item me-3" *ngIf="!auth.esAdmin()">
+            <a class="nav-link text-white" routerLink="/crear">Crear</a>
+          </li>
+          <li class="nav-item me-3" *ngIf="auth.esAdmin()">
+            <a class="nav-link text-warning" routerLink="/admin">Admin</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Menú a la izquierda en móviles (menos que lg) -->
+      <div class="d-flex d-lg-none flex-grow-1">
+        <ul class="navbar-nav flex-row mb-0">
+          <li class="nav-item me-3" *ngIf="!auth.esAdmin()">
+            <a class="nav-link text-white" routerLink="/explorar">Explorar</a>
+          </li>
+          <li class="nav-item me-3" *ngIf="!auth.esAdmin()">
+            <a class="nav-link text-white" routerLink="/crear">Crear</a>
+          </li>
+          <li class="nav-item me-3" *ngIf="auth.esAdmin()">
+            <a class="nav-link text-warning" routerLink="/admin">Admin</a>
+          </li>
+        </ul>
+      </div>
+      
+    </ng-container>
+
+    <!-- Si no está logueado, no mostrar menú -->
+    <ng-template #noLogeado></ng-template>
+
+    <!-- Derecha: usuario / logout o login/registro -->
+    <div class="d-flex align-items-center ms-auto">
+      <ng-container *ngIf="auth.estaAutenticado(); else botonesNoLogueado">
+        <span class="text-white me-3">Hola, {{ auth.obtenerNombre() }}</span>
+        <button class="btn btn-outline-light btn-sm" (click)="auth.logout()">Cerrar sesión</button>
+      </ng-container>
+
+      <ng-template #botonesNoLogueado>
+        <button class="btn btn-outline-light btn-sm me-2 rounded-pill" (click)="toggleLogin()">Login</button>
+        <button class="btn btn-outline-light btn-sm rounded-pill" (click)="toggleRegistro()">Registro</button>
+      </ng-template>
+    </div>
+  </div>
+</nav>
+
+<!-- MODAL RESPONSIVE LOGIN / REGISTRO -->
+<div
+  class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-75"
+  *ngIf="mostrarLogin || mostrarRegistro"
+  (click)="cerrarForm($event)"
+  style="z-index: 1050;"
+>
+  <div
+    class="form-box bg-dark text-white p-4 rounded shadow position-relative"
+    (click)="$event.stopPropagation()"
+    style="width: 90%; max-width: 400px;"
+  >
+    <!-- Botón cerrar -->
+    <button
+      type="button"
+      class="btn-close btn-close-white position-absolute top-0 end-0 m-2"
+      aria-label="Cerrar"
+      (click)="cerrarForm($event)"
+    ></button>
+
+    <!-- Formulario Login -->
+    <div *ngIf="mostrarLogin">
+      <h5 class="text-light mb-3">Iniciar sesión</h5>
+      <input [(ngModel)]="credenciales.email" type="email" placeholder="Email" class="form-control mb-2" />
+      <input [(ngModel)]="credenciales.password" type="password" placeholder="Contraseña" class="form-control mb-2" />
+      <div *ngIf="mensajeLogin" class="alert" [ngClass]="{ 'alert-success': exitoLogin, 'alert-danger': !exitoLogin }">
+        {{ mensajeLogin }}
+      </div>
+      <button (click)="onLogin()" class="btn btn-primary btn-sm w-100">Entrar</button>
+    </div>
+
+    <!-- Formulario Registro -->
+    <div *ngIf="mostrarRegistro">
+      <h5 class="text-light mb-3">Registro</h5>
+      <input [(ngModel)]="usuario.nombre" type="text" placeholder="Nombre" class="form-control mb-2" />
+      <input [(ngModel)]="usuario.email" type="email" placeholder="Email" class="form-control mb-2" />
+      <input [(ngModel)]="usuario.password" type="password" placeholder="Contraseña" class="form-control mb-2" />
+      <div *ngIf="mensajeRegistro" class="alert" [ngClass]="{ 'alert-success': exitoRegistro, 'alert-danger': !exitoRegistro }">
+        {{ mensajeRegistro }}
+      </div>
+      <button (click)="onRegister()" class="btn btn-primary btn-sm w-100">Crear cuenta</button>
+    </div>
+  </div>
+</div>

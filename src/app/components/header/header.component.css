@@ -1,0 +1,18 @@
+.form-box input {
+  width: 100%;
+}
+
+.form-box button {
+  margin-top: 0.5rem;
+}
+
+nav.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+body {
+  padding-top: 60px; /* igual que top del form-container */
+}

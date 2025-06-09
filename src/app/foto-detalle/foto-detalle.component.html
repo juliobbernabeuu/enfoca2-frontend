@@ -1,0 +1,93 @@
+<div class="container-fluid text-light py-4" *ngIf="foto">
+  <div
+    class="row justify-content-center align-items-start"
+    style="max-width: 1000px; margin: 0 auto; height: 80vh"
+  >
+    <div
+      class="d-flex p-0 overflow-hidden rounded-4 shadow-lg"
+      style="height: 100%; width: 100%"
+    >
+      <!-- Imagen izquierda -->
+      <div
+        class="col-md-7 d-flex justify-content-center align-items-center p-0"
+        style="height: 100%"
+      >
+        <img
+          [src]="foto.url"
+          class="img-fluid w-100 h-100 object-fit-cover"
+          style="object-fit: cover"
+          alt="Foto"
+        />
+      </div>
+
+      <!-- Interacción derecha -->
+      <div
+        class="col-md-5 bg-black p-4 d-flex flex-column justify-content-between"
+        style="height: 100%"
+      >
+        <!-- Encabezado -->
+        <div>
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <strong>{{ foto.nombre_usuario }}</strong>
+            <span>{{ foto.titulo }}</span>
+          </div>
+
+          <hr />
+
+          <div class="overflow-auto mb-3" style="max-height: 300px">
+            <div *ngFor="let comentario of comentarios" class="mb-3">
+              <strong>{{ comentario.nombre || "Anónimo" }}</strong>
+              <p class="mb-1">{{ comentario.contenido }}</p>
+            </div>
+            <div *ngIf="comentarios.length === 0" class="text-muted">
+              No hay comentarios todavía.
+            </div>
+          </div>
+        </div>
+
+        <!-- Interacciones -->
+        <div>
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <button
+              class="btn"
+              [ngClass]="yaLeDioLike ? 'btn-danger' : 'btn-outline-light'"
+              (click)="darLike()"
+            >
+              ❤️ {{ likes }}
+            </button>
+            <!-- ...botón descargar o comprar -->
+
+            <button
+              class="btn"
+              [ngClass]="foto.descargable ? 'btn-success' : 'btn-warning'"
+              (click)="foto.descargable ? descargar() : comprar()"
+            >
+              <i
+                class="bi"
+                [ngClass]="
+                  foto.descargable ? 'bi-download' : 'bi-currency-euro'
+                "
+              ></i>
+              {{ foto.descargable ? "Descargar" : "Comprar" }}
+            </button>
+          </div>
+
+          <!-- Formulario comentario -->
+          <form (ngSubmit)="enviarComentario()">
+            <div class="input-group">
+              <input
+                type="text"
+                [(ngModel)]="nuevoComentario"
+                name="comentario"
+                class="form-control bg-secondary text-light"
+                placeholder="Añade un comentario..."
+                required
+              />
+              <button type="submit" class="btn btn-primary">Publicar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

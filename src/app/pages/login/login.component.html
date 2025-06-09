@@ -1,0 +1,19 @@
+<div class="container mt-5">
+  <h2>Iniciar Sesión</h2>
+  <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+    <div class="mb-3">
+      <label for="email" class="form-label">Correo electrónico</label>
+      <input type="email" class="form-control" id="email" required [(ngModel)]="credenciales.email" name="email">
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Contraseña</label>
+      <input type="password" class="form-control" id="password" required [(ngModel)]="credenciales.password" name="password">
+    </div>
+
+    <button type="submit" class="btn btn-success" [disabled]="loginForm.invalid">Entrar</button>
+  </form>
+
+  <div *ngIf="mensaje" class="mt-3 alert alert-info">{{ mensaje }}</div>
+</div>
+

@@ -1,0 +1,74 @@
+<!-- Hero con imagen de fondo y texto centrado -->
+<div class="position-relative text-white">
+  <img src="/fondo.jpg" class="w-100" style="height: 680px; object-fit: cover; filter: brightness(0.5);" alt="Fondo">
+  <div class="position-absolute top-50 start-50 translate-middle text-center px-3">
+    <h1 class="display-2 fw-bold">Bienvenido a <span class="text-info">Enfoca2</span></h1>
+    <p class="lead mt-3">Captura, comparte y descubre las mejores fotografías.</p>
+    <a href="#descubrir-mas" class="btn btn-outline-light btn-lg mt-4 rounded-pill px-4">Explorar</a>
+  </div>
+</div>
+
+<!-- Sección de introducción -->
+<section id="descubrir-mas" class="py-5 bg-dark text-light">
+  <div class="container text-center">
+    <h2 class="mb-4 fw-semibold">Descubre un mundo visual</h2>
+    <p class="fs-5 mb-3">Explora fotografías impactantes, conecta con otros fotógrafos y construye tu galería personal.</p>
+    <p class="mb-4">Forma parte de una comunidad apasionada por contar historias a través del lente.</p>
+    <a href="#carrusel-recientes" class="btn btn-light btn-lg rounded-pill px-4">Ver Fotos Recientes</a>
+  </div>
+</section>
+
+<!-- Carrusel de fotos recientes -->
+<section id="carrusel-recientes" class="py-5 bg-white">
+  <div class="container">
+    <h2 class="text-center mb-5">Fotos recientes</h2>
+    <div id="carouselRecientes" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item" *ngFor="let grupo of fotosRecientesPorGrupo; let i = index" [class.active]="i === 0">
+          <div class="d-flex justify-content-center flex-wrap gap-4">
+            <img *ngFor="let foto of grupo" [src]="foto.url" [alt]="foto.titulo"
+              class="rounded shadow-sm" style="width: 300px; height: 200px; object-fit: cover;">
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselRecientes" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselRecientes" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Carrusel de fotos más valoradas -->
+<section class="py-5 bg-dark text-light">
+  <div class="container">
+    <h2 class="text-center mb-5">Fotos más valoradas</h2>
+    <div id="carouselValoradas" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item" *ngFor="let grupo of fotosValoradasPorGrupo; let i = index" [class.active]="i === 0">
+          <div class="d-flex justify-content-center flex-wrap gap-4">
+            <img *ngFor="let foto of grupo" [src]="foto.url" [alt]="foto.titulo"
+              class="rounded shadow-sm" style="width: 300px; height: 200px; object-fit: cover;">
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselValoradas" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselValoradas" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Llamado a la acción final -->
+<section class="py-5 bg-white  text-center">
+  <div class="container">
+    <h3 class="fw-bold mb-3">¿Listo para compartir tu visión?</h3>
+    <p class="mb-4">Regístrate hoy y empieza a crear tu propio portafolio de fotografías.</p>
+    <a href="/registro" class="btn btn-outline-dark btn-lg rounded-pill px-4">Únete ahora</a>
+  </div>
+</section>

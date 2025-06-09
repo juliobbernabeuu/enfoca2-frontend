@@ -1,0 +1,61 @@
+<div class="container mt-4">
+  <h2 class="mb-4 text-center">Usuarios</h2>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered align-middle text-center rounded-4 overflow-hidden">
+      <thead class="table-dark">
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Bloqueo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.rol }}</td>
+          <td>
+            {{ usuario.bloqueado_hasta ? (usuario.bloqueado_hasta | date: 'shortDate') : 'No tiene' }}
+          </td>
+          <td>
+            <button class="btn btn-warning btn-sm" (click)="seleccionarUsuario(usuario)">
+              <i class="bi bi-slash-circle me-1"></i> Bloquear
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Formulario de bloqueo -->
+  <div *ngIf="usuarioSeleccionado" class="card mt-4 shadow-sm border-0 rounded-4">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Bloquear a <strong>{{ usuarioSeleccionado.nombre }}</strong></h5>
+
+      <div class="mb-3">
+        <label for="dias" class="form-label">Días de bloqueo:</label>
+        <input
+          type="number"
+          id="dias"
+          class="form-control w-25"
+          [(ngModel)]="diasBloqueo"
+          min="1"
+          required
+        />
+      </div>
+
+      <div class="d-flex gap-2">
+        <button class="btn btn-danger" (click)="bloquearUsuario()">Confirmar</button>
+        <button class="btn btn-secondary" (click)="usuarioSeleccionado = null">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensaje -->
+  <div *ngIf="mensaje" class="alert alert-info mt-3 rounded-3 shadow-sm text-center">
+    {{ mensaje }}
+  </div>
+</div>

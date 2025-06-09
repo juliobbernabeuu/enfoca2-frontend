@@ -1,0 +1,64 @@
+<div class="container mt-5">
+  <h4 class="mb-4 text-center">Eliminar Fotos</h4>
+
+  <div *ngIf="mensaje" class="alert alert-info text-center rounded-3 shadow-sm">
+    {{ mensaje }}
+  </div>
+
+  <div *ngIf="cargando" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <!-- Tabla de fotos centrada -->
+    <div class="col-lg-10 col-xl-8 mb-4">
+      <div class="card shadow-sm border-0 rounded-4 mx-auto">
+        <div class="card-body p-0">
+          <table class="table table-hover mb-0 rounded-4 overflow-hidden" *ngIf="fotos.length > 0">
+            <thead class="table-dark">
+              <tr>
+                <th>Nombre</th>
+                <th>Usuario</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let foto of fotos" (click)="seleccionarFoto(foto)">
+                <td>{{ foto.titulo }}</td>
+                <td>{{ foto.id_usuario }}</td>
+                <td>{{ foto.fecha | date: 'shortDate' }}</td>
+                <td>
+                  <button class="btn btn-danger btn-sm" (click)="eliminarFoto(foto); $event.stopPropagation()">
+                    <i class="bi bi-trash-fill me-1"></i>Eliminar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div *ngIf="fotos.length === 0 && !cargando" class="alert alert-warning m-3 text-center rounded-3 shadow-sm">
+            No hay fotos para mostrar.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vista previa -->
+    <div class="col-lg-4" *ngIf="fotoSeleccionada">
+      <div class="card shadow-sm border-0 rounded-4">
+        <img [src]="fotoSeleccionada.url" class="card-img-top rounded-top-4" alt="Vista previa" />
+        <div class="card-body">
+          <h5 class="card-title">{{ fotoSeleccionada.titulo }}</h5>
+          <p class="card-text">
+            <strong>Usuario ID:</strong> {{ fotoSeleccionada.id_usuario }}<br />
+            <strong>Fecha:</strong> {{ fotoSeleccionada.fecha | date:'dd-MM-yyyy' }}<br />
+            <strong>Categoría ID:</strong> {{ fotoSeleccionada.id_categoria }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
